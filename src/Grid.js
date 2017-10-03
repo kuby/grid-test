@@ -25,8 +25,8 @@ export default class TestGrid extends Component {
     this.state = {
       layouts: JSON.parse(JSON.stringify(this.getFromLS('layouts') || {})),
       disabled: false,
-      items: JSON.parse(JSON.stringify(JSON.parse(localStorage.getItem('items')) || { data: [] })),
-      newCounter: JSON.parse(JSON.stringify(JSON.parse(localStorage.getItem('newcounter')) || {val: 0})),
+      items: JSON.parse(JSON.stringify(this.getFromLS('items') || {data: []})),
+      newCounter: JSON.parse(JSON.stringify(this.getFromLS('newcounter') || {val: 0})),
     }
 
     this.onLayoutChange = this.onLayoutChange.bind(this)
@@ -36,8 +36,6 @@ export default class TestGrid extends Component {
 
   clearLocalStorage() {
     localStorage.removeItem('rgl-8')
-    localStorage.removeItem('items')
-    localStorage.removeItem('newcounter')
   }
 
   getFromLS(key) {
@@ -50,23 +48,20 @@ export default class TestGrid extends Component {
     return ls[key];
   }
 
-  saveToLS(key, value) {
-    console.log(value)
+  saveToLS(value) {
     if (localStorage) {
       localStorage.setItem('rgl-8', JSON.stringify({
-        [key]: value
+        layouts: value,
+        newcounter: {val: this.state.newCounter.val},
+        items: {data: this.state.items.data}
       }));
-
-      localStorage.setItem('newcounter', JSON.stringify({ val: this.state.newCounter.val }))
-      localStorage.setItem('items', JSON.stringify({ data: this.state.items.data }))
     }
   }
 
   onLayoutChange(layout, layouts) {
     console.log(layouts)
-    this.saveToLS('layouts', layouts);
+    this.saveToLS(layouts);
     this.setState({layouts});
-    // this.props.onLayoutChange(layout, layouts);
   }
 
   onLock() {
@@ -110,7 +105,7 @@ export default class TestGrid extends Component {
       cursor: 'pointer'
     };
 
-    return items.map((v, i) => {
+    return items.map((v) => {
       let dataGrid
       if (v.initData) {
         dataGrid = v.initData
