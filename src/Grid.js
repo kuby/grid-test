@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import { reject } from 'lodash'
+import { WidthProvider, Responsive } from 'react-grid-layout';
 
-const WidthProvider = require('react-grid-layout').WidthProvider;
-const ResponsiveReactGridLayout = WidthProvider(require('react-grid-layout').Responsive);
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export default class TestGrid extends PureComponent {
   constructor(props) {
