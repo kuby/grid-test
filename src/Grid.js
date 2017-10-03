@@ -48,6 +48,11 @@ export default class TestGrid extends PureComponent {
   }
 
   saveToLS(value) {
+    console.log(JSON.stringify({
+      layouts: value,
+      newcounter: {val: this.state.newCounter.val},
+      items: {data: this.state.items.data}
+    }))
     if (localStorage) {
       localStorage.setItem('rgl-8', JSON.stringify({
         layouts: value,
@@ -78,8 +83,8 @@ export default class TestGrid extends PureComponent {
     const newItemParams = {
       w: 4,
       h: 4,
-      x: this.state.items.data.length * 2 % (this.state.cols || 30),
-      y: Infinity
+      x: 100,
+      y: 100
     }
 
     this.setState(prevState => ({
