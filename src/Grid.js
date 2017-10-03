@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { reject } from 'lodash'
 
 const WidthProvider = require('react-grid-layout').WidthProvider;
 const ResponsiveReactGridLayout = WidthProvider(require('react-grid-layout').Responsive);
 
-export default class TestGrid extends Component {
+export default class TestGrid extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -21,8 +21,8 @@ export default class TestGrid extends Component {
     }
 
     this.state = {
-      layouts: JSON.parse(JSON.stringify(this.getFromLS('layouts') || {})),
       disabled: false,
+      layouts: JSON.parse(JSON.stringify(this.getFromLS('layouts') || {})),
       items: JSON.parse(JSON.stringify(this.getFromLS('items') || {data: []})),
       newCounter: JSON.parse(JSON.stringify(this.getFromLS('newcounter') || {val: 0})),
     }
@@ -71,7 +71,7 @@ export default class TestGrid extends Component {
   }
 
   onLock() {
-    this.setState({ disabled: !this.state.disabled })
+    this.setState(prevState => ({ disabled: !prevState.disabled }))
   }
 
   onAddItem(val) {
@@ -82,25 +82,25 @@ export default class TestGrid extends Component {
       y: Infinity
     }
 
-    this.setState({
+    this.setState(prevState => ({
       items: {
-        data: this.state.items.data.concat({
-          key: this.state.newCounter.val,
+        data: prevState.items.data.concat({
+          key: prevState.newCounter.val,
           val,
           initData: newItemParams,
         })
       },
-      newCounter: {val: parseInt(this.state.newCounter.val, 10) + 1},
+      newCounter: {val: parseInt(prevState.newCounter.val, 10) + 1},
       disabled: false,
-    })
+    }))
   }
 
   onRemoveItem(i) {
-    this.setState({
+    this.setState(prevState => ({
       items: {
-        data: reject(this.state.items.data, { key: i })
+        data: reject(prevState.items.data, { key: i })
       }
-    });
+    }));
   }
 
   generateItems(items) {
