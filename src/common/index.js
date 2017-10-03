@@ -8,6 +8,11 @@ import Item5 from './Item5'
 import Item6 from './Item6'
 import Item7 from './Item7'
 
+/**
+ * Every component which you want to use in the grid layout must be imported and returned in this file.
+ * Each component have a custom key which must be set manually. The keys must be unique!
+ */
+
 export const getComponentById = (id) => {
   let comp
 
