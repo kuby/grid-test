@@ -36,7 +36,7 @@
 .react-grid-item {
   transition: all 200ms ease;
   transition-property: left, top;
-  border: 1px solid #000;
+  border: 2px solid #ccc;
   border-radius: 3px;
   box-sizing: border-box;
   padding: 4px;
@@ -48,7 +48,6 @@
 }
 .react-grid-layout.editable-grid .react-grid-item:active {
   border-color: #4065ff;
-  border-width: 2px;
   opacity: .8;
 }
 .react-grid-item.cssTransforms {
@@ -114,13 +113,31 @@
   display: block;
 }
 .react-grid-layout .remove{
+  position: absolute;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  background: rgb(204, 204, 204);
+  color: rgb(123, 123, 123);
+  right: -7px;
+  top: -7px;
+  cursor: pointer;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
   display: none;
 }
 .react-grid-layout.editable-grid .remove{
-  display: block;
+  display: flex;
 }
 .locking {
   position: absolute;
   left: 5px;
   bottom: 5px;
+}
+
+.text {
+  color: rgb(83, 83, 83);
+  font-size: 16px;
 }

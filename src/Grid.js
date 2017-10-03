@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { reject } from 'lodash'
 
-import { getComponentById } from './common'
-
 const WidthProvider = require('react-grid-layout').WidthProvider;
 const ResponsiveReactGridLayout = WidthProvider(require('react-grid-layout').Responsive);
 
@@ -18,7 +16,7 @@ export default class TestGrid extends Component {
     this.defaultProps = {
       cols: {lg: 30, md: 26, sm: 22, xs: 18, xxs: 14},
       rowHeight: 40,
-      margin: [5,5],
+      margin: [10,10],
       verticalCompact: true,
     }
 
@@ -30,6 +28,7 @@ export default class TestGrid extends Component {
     }
 
     this.onLayoutChange = this.onLayoutChange.bind(this)
+    this.onBreakpointChange = this.onBreakpointChange.bind(this)
     this.onLock = this.onLock.bind(this)
     // this.onAddItem = this.onAddItem.bind(this)
   }
@@ -62,6 +61,13 @@ export default class TestGrid extends Component {
     console.log(layouts)
     this.saveToLS(layouts);
     this.setState({layouts});
+  }
+
+  onBreakpointChange(breakpoint, cols) {
+    this.setState({
+      breakpoint: breakpoint,
+      cols: cols
+    });
   }
 
   onLock() {
@@ -98,13 +104,6 @@ export default class TestGrid extends Component {
   }
 
   generateItems(items) {
-    const removeStyle = {
-      position: 'absolute',
-      right: '4px',
-      top: 0,
-      cursor: 'pointer'
-    };
-
     return items.map((v) => {
       let dataGrid
       if (v.initData) {
@@ -113,8 +112,8 @@ export default class TestGrid extends Component {
 
       return (
         <div key={`grid-item-${v.key}`} data-grid={dataGrid}>
-          {getComponentById(v.val)}
-          <span className="remove" style={removeStyle} onClick={this.onRemoveItem.bind(this, v.key)}>x</span>
+          {this.props.components(v.val)}
+          <span className="remove" onClick={this.onRemoveItem.bind(this, v.key)}>{'x'}</span>
         </div>
       )
     })
@@ -134,6 +133,7 @@ export default class TestGrid extends Component {
           ref="rrgl"
           layouts={this.state.layouts}
           onLayoutChange={this.onLayoutChange}
+          onBreakpointChange={this.onBreakpointChange}
           draggableHandle={draggableState}
         >
           {this.generateItems(this.state.items.data)}
